@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS tags (
 
 CREATE TABLE IF NOT EXISTS rooms (
     id varchar PRIMARY KEY,
-    tag_ids varchar[] DEFAULT '{}' ::varchar[] NOT NULL;
-
-created_at timestamp NOT NULL DEFAULT now(),
-updated_at timestamp NOT NULL DEFAULT now(),
+    tag_ids varchar[] DEFAULT '{}' ::varchar[] NOT NULL,
+    created_at timestamp NOT NULL DEFAULT now(),
+    updated_at timestamp NOT NULL DEFAULT now(),
 )
