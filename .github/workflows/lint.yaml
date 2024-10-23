@@ -1,0 +1,14 @@
+---
+name: lint
+on:
+  push:
+
+
+jobs:
+  pg-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt update && sudo apt install pgformatter
+      - run: pg_format -i ./**/*.sql
+      - run: '[[ -z $(git status -s) ]]'
