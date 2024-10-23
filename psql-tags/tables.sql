@@ -11,3 +11,4 @@ CREATE TABLE IF NOT EXISTS rooms (
     created_at timestamp NOT NULL DEFAULT now(),
     updated_at timestamp NOT NULL DEFAULT now()
 );
+
