@@ -1,8 +1,8 @@
-create table
-  if not exists users (
-    id serial primary key,
-    first_name text not null,
-    last_name text not null,
-    created_at timestamp not null default now (),
-    phone text not null
-  );
+CREATE TABLE IF NOT EXISTS users (
+    id serial PRIMARY KEY,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    created_at timestamp NOT NULL DEFAULT now(),
+    phone text NOT NULL
+);
+

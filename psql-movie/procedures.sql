@@ -1,101 +1,110 @@
 -- read phone number as a text and then detects its type, city and reports them.
-create or replace procedure phone (
-  phone_number text
-) language plpgsql as $$
-begin
-  if phone_number like '0912%' then
-    raise info 'mobile phone number';
-  elseif phone_number like '021%' then
-    raise info 'city=tehran,city code=021,last 8 digits=%', substring(phone_number, 4, 8);
-  elseif phone_number like '031%' then
-    raise info 'city=esfahan,city code=031,last 8 digits=%', substring(phone_number, 4, 8);
-  end if;
-end
+CREATE OR REPLACE PROCEDURE phone (phone_number text)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF phone_number LIKE '0912%' THEN
+        RAISE info 'mobile phone number';
+        elseif phone_number LIKE '021%' THEN
+        RAISE info 'city=tehran,city code=021,last 8 digits=%', substring(phone_number, 4, 8);
+        elseif phone_number LIKE '031%' THEN
+        RAISE info 'city=esfahan,city code=031,last 8 digits=%', substring(phone_number, 4, 8);
+    END IF;
+END
 $$;
 
 -- reports films that are rented between given dates
-create or replace function renteds (
-  in begin_date date,
-  in end_date date
-)
-returns table(title varchar(255), film_id int)
-language plpgsql as $$
-begin
-  return query
-    select
-      film.title,
-      film.film_id
-    from
-      rental,
-      inventory,
-      film
-    where
-      rental.rental_id = inventory.inventory_id
-      and
-      inventory.film_id = film.film_id
-      and
-      rental.rental_date > begin_date
-      and
-      rental.rental_date < end_date;
-end
+CREATE OR REPLACE FUNCTION renteds (IN begin_date date, IN end_date date)
+    RETURNS TABLE (
+        title varchar(255),
+        film_id int)
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    RETURN query
+    SELECT
+        film.title,
+        film.film_id
+    FROM
+        rental,
+        inventory,
+        film
+    WHERE
+        rental.rental_id = inventory.inventory_id
+        AND inventory.film_id = film.film_id
+        AND rental.rental_date > begin_date
+        AND rental.rental_date < end_date;
+END
 $$;
 
 -- reports customers that rent films rented between given dates but do not return them
-create or replace function bad_customers (
-  in begin_date date,
-  in end_date date
-)
-returns table(customer_id smallint)
-language plpgsql as $$
-begin
-  return query
-    select
-      rental.customer_id
-    from
-      renteds(begin_date, end_date),
-      inventory,
-      rental,
-      film
-    where
-      rental.rental_id = inventory.inventory_id
-      and
-      inventory.film_id = renteds.film_id
-      and
-      rental.return_date is null;
-end
+CREATE OR REPLACE FUNCTION bad_customers (IN begin_date date, IN end_date date)
+    RETURNS TABLE (
+        customer_id smallint)
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    RETURN query
+    SELECT
+        rental.customer_id
+    FROM
+        renteds (begin_date, end_date),
+        inventory,
+        rental,
+        film
+    WHERE
+        rental.rental_id = inventory.inventory_id
+        AND inventory.film_id = renteds.film_id
+        AND rental.return_date IS NULL;
+END
 $$;
 
 -- log table collects the status of rentals
-create table if not exists rental_logs (
-  customer_id smallint,
-  duration interval
+CREATE TABLE IF NOT EXISTS rental_logs (
+    customer_id smallint,
+    duration interval
 );
 
 -- procedure will be called on insert or update of rental table to calculate the rent duration.
-create or replace function on_rental_procedure () returns trigger language plpgsql as $$
-declare
-  film_duration interval;
-  actual_duration interval;
-begin
-  select film.rental_duration into film_duration from film, inventory where inventory.inventory_id = NEW.inventory_id and inventory.film_id = film.film_id;
-  select NEW.return_date - NEW.rental_date into actual_duration;
-
-  if actual_duration > film_duration then
-    insert into rental_logs values (NEW.customer_id, actual_duration);
-  end if;
-end
+CREATE OR REPLACE FUNCTION on_rental_procedure ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    film_duration interval;
+    actual_duration interval;
+BEGIN
+    SELECT
+        film.rental_duration INTO film_duration
+    FROM
+        film,
+        inventory
+    WHERE
+        inventory.inventory_id = NEW.inventory_id
+        AND inventory.film_id = film.film_id;
+    SELECT
+        NEW.return_date - NEW.rental_date INTO actual_duration;
+    IF actual_duration > film_duration THEN
+        INSERT INTO rental_logs
+            VALUES (NEW.customer_id, actual_duration);
+    END IF;
+END
 $$;
 
 -- trigger that check the rent duration for rental_logs tbale.
-create trigger on_rental
-  before insert or update on rental
-  execute procedure on_rental_procedure();
+CREATE TRIGGER on_rental
+    BEFORE INSERT OR UPDATE ON rental
+    EXECUTE PROCEDURE on_rental_procedure ();
 
 -- update every film row to increase rent duration.
-create or replace procedure increase_duration (
-  inc int
-) language plpgsql as $$
-begin
-  update film set rental_duration = rental_duration + inc;
-end
+CREATE OR REPLACE PROCEDURE increase_duration (inc int)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE
+        film
+    SET
+        rental_duration = rental_duration + inc;
+END
 $$;
+

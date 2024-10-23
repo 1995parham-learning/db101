@@ -1,73 +1,66 @@
-create database elahe;
+CREATE DATABASE elahe;
 
-create table
-  persons (id int, name text, username text);
+CREATE TABLE persons (
+    id int,
+    name text,
+    username text
+);
 
-insert into
-  persons
-values
-  (1, 'Elahe Dastan', 'eldaa');
+INSERT INTO persons
+    VALUES (1, 'Elahe Dastan', 'eldaa');
 
-insert into
-  persons
-values
-  (2, 'Sara Dastan', 'sdaa');
+INSERT INTO persons
+    VALUES (2, 'Sara Dastan', 'sdaa');
 
-insert into
-  persons
-values
-  (3, 'Negin Amjadi', 'nj');
+INSERT INTO persons
+    VALUES (3, 'Negin Amjadi', 'nj');
 
-insert into
-  persons
-values
-  (4, 'John Duo', 'john');
+INSERT INTO persons
+    VALUES (4, 'John Duo', 'john');
 
 -- check the following link to know more about
 -- creating roles:
 -- https://www.postgresql.org/docs/current/sql-createrole.html
 -- create a user (role) with name `superman` and superuser access.
-create role superman login superuser password 'suerpman';
+CREATE ROLE superman LOGIN superuser PASSWORD 'suerpman';
 
 -- print current user;
-select
-  current_user;
+SELECT
+    CURRENT_USER;
 
 -- create user (role) `the_group` with role creation permission and password expiration time.
-create role the_group createrole valid until '25 Apr 2045';
+CREATE ROLE the_group createrole valid until '25 Apr 2045';
 
 -- create users (roles) testrole1 and testrole2 that only has login access.
-create role testrole1 login password 'login1';
+CREATE ROLE testrole1 LOGIN PASSWORD 'login1';
 
-create role testrole2 login password 'login2';
+CREATE ROLE testrole2 LOGIN PASSWORD 'login2';
 
 -- join testrole1 and testrole2 to the_group role;
-grant the_group to testrole1;
+GRANT the_group TO testrole1;
 
-grant the_group to testrole2;
+GRANT the_group TO testrole2;
 
 -- enable inheritance on testrole1
-alter role testrole1 inherit;
+ALTER ROLE testrole1 inherit;
 
 -- ignore row level security  on testrole1
-alter role testrole1 bypassrls;
+ALTER ROLE testrole1 bypassrls;
 
 -- change role name
-alter role testrole2
-rename to newtestrole2;
+ALTER ROLE testrole2 RENAME TO newtestrole2;
 
 -- grant testrole1 to select on persons;
-grant
-select
-  on persons to testrole1;
+GRANT SELECT ON persons TO testrole1;
 
 -- enable row level security on persons
-alter table persons enable row level security;
+ALTER TABLE persons ENABLE ROW LEVEL SECURITY;
 
 -- create policy on persons
-create policy persons_policy on persons for
-select
-  using (id > 3);
+CREATE POLICY persons_policy ON persons
+    FOR SELECT
+        USING (id > 3);
 
 -- delete newtestrole2
-drop role newtestrole2;
+DROP ROLE newtestrole2;
+

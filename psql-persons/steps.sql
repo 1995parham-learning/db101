@@ -1,29 +1,25 @@
 -- create a simple table for storing first_name and last_name of persons.
-create table
-  if not exists persons (first_name text, last_name text);
+CREATE TABLE IF NOT EXISTS persons (
+    first_name text,
+    last_name text
+);
 
-insert into
-  persons
-values
-  ('Elahe', 'Dastan');
+INSERT INTO persons
+    VALUES ('Elahe', 'Dastan');
 
-insert into
-  persons
-values
-  ('Sara', 'Dastan');
+INSERT INTO persons
+    VALUES ('Sara', 'Dastan');
 
-alter table if exists persons
-add column if not exists id text;
+ALTER TABLE IF EXISTS persons
+    ADD COLUMN IF NOT EXISTS id text;
 
-insert into
-  persons
-values
-  ('Negin', 'Amjadi', '0017784646');
+INSERT INTO persons
+    VALUES ('Negin', 'Amjadi', '0017784646');
 
-create view
-  persons_name_view as
-select
-  first_name,
-  last_name
-from
-  persons;
+CREATE VIEW persons_name_view AS
+SELECT
+    first_name,
+    last_name
+FROM
+    persons;
+

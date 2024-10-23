@@ -1,119 +1,85 @@
-create type ride_event as enum (
-  'ride_requested',
-  'ride_accepted',
-  'ride_boarded',
-  'ride_finished',
-  'ride_not_accepted',
-  'ride_cancelled'
+CREATE TYPE ride_event AS enum (
+    'ride_requested',
+    'ride_accepted',
+    'ride_boarded',
+    'ride_finished',
+    'ride_not_accepted',
+    'ride_cancelled'
 );
 
-create table
-  if not exists passengers (
-    id serial primary key,
+CREATE TABLE IF NOT EXISTS passengers (
+    id serial PRIMARY KEY,
     first_name text,
     last_name text,
     national_id text
-  );
+);
 
-create table
-  if not exists drivers (
-    id serial primary key,
+CREATE TABLE IF NOT EXISTS drivers (
+    id serial PRIMARY KEY,
     first_name text,
     last_name text,
     national_id text
-  );
+);
 
-create table
-  if not exists rides (
+CREATE TABLE IF NOT EXISTS rides (
     id bigint,
-    passenger_id int default null references passengers (id),
-    driver_id int default null references drivers (id),
-    event_name ride_event not null,
-    created_at timestamp not null default now ()
-  );
+    passenger_id int DEFAULT NULL REFERENCES passengers (id),
+    driver_id int DEFAULT NULL REFERENCES drivers (id),
+    event_name ride_event NOT NULL,
+    created_at timestamp NOT NULL DEFAULT now()
+);
 
 -- passengers
-insert into
-  passengers (first_name, last_name, national_id)
-values
-  ('Test1', 'Passenger', '1234');
+INSERT INTO passengers (first_name, last_name, national_id)
+    VALUES ('Test1', 'Passenger', '1234');
 
-insert into
-  passengers (first_name, last_name, national_id)
-values
-  ('Test2', 'Passenger', '1235');
+INSERT INTO passengers (first_name, last_name, national_id)
+    VALUES ('Test2', 'Passenger', '1235');
 
 -- drivers
-insert into
-  drivers (first_name, last_name, national_id)
-values
-  ('Test1', 'Driver', '1234');
+INSERT INTO drivers (first_name, last_name, national_id)
+    VALUES ('Test1', 'Driver', '1234');
 
-insert into
-  drivers (first_name, last_name, national_id)
-values
-  ('Test2', 'Driver', '1235');
+INSERT INTO drivers (first_name, last_name, national_id)
+    VALUES ('Test2', 'Driver', '1235');
 
-insert into
-  drivers (first_name, last_name, national_id)
-values
-  ('Test2', 'Passenger', '1235');
+INSERT INTO drivers (first_name, last_name, national_id)
+    VALUES ('Test2', 'Passenger', '1235');
 
 -- successfully completed ride
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (1, 1, 'ride_requested');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (1, 1, 'ride_requested');
 
-insert into
-  rides (id, passenger_id, driver_id, event_name)
-values
-  (1, 1, 1, 'ride_accepted');
+INSERT INTO rides (id, passenger_id, driver_id, event_name)
+    VALUES (1, 1, 1, 'ride_accepted');
 
-insert into
-  rides (id, passenger_id, driver_id, event_name)
-values
-  (1, 1, 1, 'ride_boarded');
+INSERT INTO rides (id, passenger_id, driver_id, event_name)
+    VALUES (1, 1, 1, 'ride_boarded');
 
-insert into
-  rides (id, passenger_id, driver_id, event_name)
-values
-  (1, 1, 1, 'ride_finished');
+INSERT INTO rides (id, passenger_id, driver_id, event_name)
+    VALUES (1, 1, 1, 'ride_finished');
 
 -- not accepted ride
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (2, 1, 'ride_requested');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (2, 1, 'ride_requested');
 
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (2, 1, 'ride_not_accepted');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (2, 1, 'ride_not_accepted');
 
 -- cancelled ride after request
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (3, 1, 'ride_requested');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (3, 1, 'ride_requested');
 
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (3, 1, 'ride_cancelled');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (3, 1, 'ride_cancelled');
 
 -- cancelled ride after accept
-insert into
-  rides (id, passenger_id, event_name)
-values
-  (4, 1, 'ride_requested');
+INSERT INTO rides (id, passenger_id, event_name)
+    VALUES (4, 1, 'ride_requested');
 
-insert into
-  rides (id, passenger_id, driver_id, event_name)
-values
-  (4, 1, 1, 'ride_accepted');
+INSERT INTO rides (id, passenger_id, driver_id, event_name)
+    VALUES (4, 1, 1, 'ride_accepted');
 
-insert into
-  rides (id, passenger_id, driver_id, event_name)
-values
-  (4, 1, 1, 'ride_cancelled');
+INSERT INTO rides (id, passenger_id, driver_id, event_name)
+    VALUES (4, 1, 1, 'ride_cancelled');
+
