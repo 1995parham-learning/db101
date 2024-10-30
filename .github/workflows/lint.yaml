@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt update && sudo apt install pgformatter
-      - run: pg_format -i ./**/*.sql
+      - run: pg_format -B -i ./**/*.sql
       - run: git status && git diff
       - run: '[[ -z $(git status -s) ]]'
