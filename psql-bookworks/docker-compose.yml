@@ -1,0 +1,33 @@
+---
+services:
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bookworks
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/:/var/lib/postgresql/data/
+      - ./books-pgsql-10-script.sql:/docker-entrypoint-initdb.d/01-books-pgsql-10-script.sql
+    healthcheck:
+      # https://github.com/peter-evans/docker-compose-healthcheck/issues/16
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 15433:80
+    depends_on:
+      - database
+    environment:
+      PGADMIN_DEFAULT_EMAIL: parham.alvani@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: secret
