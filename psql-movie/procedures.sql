@@ -86,7 +86,9 @@ BEGIN
         NEW.return_date - NEW.rental_date INTO actual_duration;
     IF actual_duration > film_duration THEN
         INSERT INTO rental_logs
-            VALUES (NEW.customer_id, actual_duration);
+        VALUES (
+            NEW.customer_id,
+            actual_duration);
     END IF;
 END
 $$;

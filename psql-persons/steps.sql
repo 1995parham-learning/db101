@@ -5,16 +5,23 @@ CREATE TABLE IF NOT EXISTS persons (
 );
 
 INSERT INTO persons
-    VALUES ('Elahe', 'Dastan');
+VALUES (
+    'Elahe',
+    'Dastan');
 
 INSERT INTO persons
-    VALUES ('Sara', 'Dastan');
+VALUES (
+    'Sara',
+    'Dastan');
 
 ALTER TABLE IF EXISTS persons
     ADD COLUMN IF NOT EXISTS id text;
 
 INSERT INTO persons
-    VALUES ('Negin', 'Amjadi', '0017784646');
+VALUES (
+    'Negin',
+    'Amjadi',
+    '0017784646');
 
 CREATE VIEW persons_name_view AS
 SELECT

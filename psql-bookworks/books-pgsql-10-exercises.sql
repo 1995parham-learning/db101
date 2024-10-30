@@ -763,16 +763,44 @@ WHERE
     familyname = 'Christie';
 
 --	Don’t run this yet:
-INSERT INTO authors (givenname, othernames, familyname, born, died, gender, home)
-    VALUES ('Agatha', 'Mary Clarissa', 'Christie', '1890-09-15', '1976-01-12', 'f', 'Tourquay, Devon, England');
+INSERT INTO authors (
+    givenname,
+    othernames,
+    familyname,
+    born,
+    died,
+    gender,
+    home)
+VALUES (
+    'Agatha',
+    'Mary Clarissa',
+    'Christie',
+    '1890-09-15',
+    '1976-01-12',
+    'f',
+    'Tourquay, Devon, England');
 
 
 /*	3.16: Getting the new ID
  ================================================
  Take note of the id!
  ================================================ */
-INSERT INTO authors (givenname, othernames, familyname, born, died, gender, home)
-    VALUES ('Agatha', 'Mary Clarissa', 'Christie', '1890-09-15', '1976-01-12', 'f', 'Tourquay, Devon, England')
+INSERT INTO authors (
+    givenname,
+    othernames,
+    familyname,
+    born,
+    died,
+    gender,
+    home)
+VALUES (
+    'Agatha',
+    'Mary Clarissa',
+    'Christie',
+    '1890-09-15',
+    '1976-01-12',
+    'f',
+    'Tourquay, Devon, England')
 RETURNING
     id;
 
@@ -788,15 +816,27 @@ WHERE
     familyname = 'Christie';
 
 --	Use the author’s id:
-INSERT INTO books (authorid, title, published, price)
-    VALUES (0, 'The Mysterious Affair at Styles', 1920, 16.00);
+INSERT INTO books (
+    authorid,
+    title,
+    published,
+    price)
+VALUES (
+    0,
+    'The Mysterious Affair at Styles',
+    1920,
+    16.00);
 
 --	use id value from above
 /*	3.18: Adding a Sale
  ================================================
  ================================================ */
-INSERT INTO sales (customerid, ordered)
-    VALUES (42, CURRENT_TIMESTAMP)
+INSERT INTO sales (
+    customerid,
+    ordered)
+VALUES (
+    42,
+    CURRENT_TIMESTAMP)
 RETURNING
     id;
 
@@ -804,10 +844,20 @@ RETURNING
 /*	3.19: Adding Sale Items
  ================================================
  ================================================ */
-INSERT INTO saleitems (saleid, bookid, quantity)
-    VALUES (0, 123, 3), --	use id value from above
-    (0, 456, 1),
-    (0, 789, 2);
+INSERT INTO saleitems (
+    saleid,
+    bookid,
+    quantity)
+VALUES (
+    0,
+    123,
+    3), --	use id value from above
+(
+    0, 456, 1),
+(
+    0,
+    789,
+    2);
 
 
 /*	3.20: Get Book Prices
@@ -2811,7 +2861,11 @@ CREATE TEMPORARY TABLE somebooks (
 /*	6.05: Populating a Temporary Table
  ================================================
  ================================================ */
-INSERT INTO somebooks (id, title, author, price)
+INSERT INTO somebooks (
+    id,
+    title,
+    author,
+    price)
 SELECT
     id,
     title,
@@ -4688,9 +4742,9 @@ WITH cte (
     id,
     value
 ) AS (
-    VALUES ('a', 'apple'),
-        ('b', 'banana'),
-        ('c', 'cherry'))
+VALUES ('a', 'apple'),
+    ('b', 'banana'),
+    ('c', 'cherry'))
 SELECT
     *
 FROM
@@ -4713,14 +4767,14 @@ WITH dates (
     dob,
     today
 ) AS (
-    VALUES (date'1940-07-07', date'2023-01-01'),
-        ('1943-02-25', '2023-01-01'),
-        ('1942-06-18', '2023-01-01'),
-        ('1940-10-09', '2022-12-31'),
-        ('1940-07-07', '2023-07-07'),
-        ('1943-02-25', '2023-02-25'),
-        ('1942-06-18', '2023-06-18'),
-        ('1940-10-09', '2023-10-09'))
+VALUES (date'1940-07-07', date'2023-01-01'),
+    ('1943-02-25', '2023-01-01'),
+    ('1942-06-18', '2023-01-01'),
+    ('1940-10-09', '2022-12-31'),
+    ('1940-07-07', '2023-07-07'),
+    ('1943-02-25', '2023-02-25'),
+    ('1942-06-18', '2023-06-18'),
+    ('1940-10-09', '2023-10-09'))
 SELECT
     dob,
     today,
@@ -4759,13 +4813,13 @@ summary AS (
 weekdays (
     SEQUENCE, weekday
 ) AS (
-    VALUES (1, 'Monday'),
-        (2, 'Tuesday'),
-        (3, 'Wednesday'),
-        (4, 'Thursday'),
-        (5, 'Friday'),
-        (6, 'Saturday'),
-        (7, 'Sunday'))
+VALUES (1, 'Monday'),
+    (2, 'Tuesday'),
+    (3, 'Wednesday'),
+    (4, 'Thursday'),
+    (5, 'Friday'),
+    (6, 'Saturday'),
+    (7, 'Sunday'))
 SELECT
     summary.weekday,
     summary.total,
@@ -4784,9 +4838,9 @@ WITH statuses (
     status,
     status_name
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze'))
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze'))
 SELECT
     *
 FROM
@@ -4806,7 +4860,7 @@ FROM
 WITH RECURSIVE cte (
     fruits
 ) AS (
-    VALUES ('Apple,Banana,Cherry,Date,Elderberry,Fig')
+VALUES ('Apple,Banana,Cherry,Date,Elderberry,Fig')
 ),
 split (
     fruit, rest
@@ -4848,9 +4902,9 @@ WITH RECURSIVE cte (
     name,
     items
 ) AS (
-    VALUES ('colours', 'Red,Orange,Yellow,Green,Blue,Indigo,Violet'),
-        ('elements', 'Hydrogen,Helium,Lithium,Beryllium,Boron,Carbon'),
-        ('numbers', 'One,Two,Three,Four,Five,Six,Seven,Eight,Nine')
+VALUES ('colours', 'Red,Orange,Yellow,Green,Blue,Indigo,Violet'),
+    ('elements', 'Hydrogen,Helium,Lithium,Beryllium,Boron,Carbon'),
+    ('numbers', 'One,Two,Three,Four,Five,Six,Seven,Eight,Nine')
 ),
 split (
     name, item, rest
@@ -4923,7 +4977,11 @@ BEGIN
         GROUP BY
             s.id,
             s.customerid)
-    INSERT INTO deleted_sales (saleid, customerid, items, deleted_date)
+    INSERT INTO deleted_sales (
+        saleid,
+        customerid,
+        items,
+        deleted_date)
     SELECT
         saleid,
         customerid,
@@ -4973,9 +5031,9 @@ WITH statuses (
     status,
     statusname
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze'))
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze'))
 SELECT
     *
 FROM
@@ -4992,9 +5050,9 @@ WITH statuses (
     status,
     statusname
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze')
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze')
 ),
 customerinfo (
     id, state, statusname
@@ -5022,9 +5080,9 @@ WITH statuses (
     status,
     statusname
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze')
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze')
 ),
 customerinfo (
     id, state, statusname
@@ -5058,9 +5116,9 @@ WITH statuses (
     status,
     statusname
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze')
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze')
 ),
 customerinfo (
     id, state, statusname
@@ -5097,9 +5155,9 @@ WITH statuses (
     status,
     statusname
 ) AS (
-    VALUES (1, 'Gold'),
-        (2, 'Silver'),
-        (3, 'Bronze')
+VALUES (1, 'Gold'),
+    (2, 'Silver'),
+    (3, 'Bronze')
 ),
 customerinfo (
     id, state, statusname
@@ -5155,14 +5213,30 @@ DECLARE
     od timestamp := CURRENT_TIMESTAMP;
     sid int;
 BEGIN
-    INSERT INTO sales (customerid, ordered)
-        VALUES (cid, CURRENT_TIMESTAMP)
-    RETURNING
-        id INTO sid;
-    INSERT INTO saleitems (saleid, bookid, quantity)
-        VALUES (sid, 123, 3),
-        (sid, 456, 1),
-        (sid, 789, 2);
+    INSERT INTO sales (
+        customerid,
+        ordered)
+    VALUES (
+        cid,
+        CURRENT_TIMESTAMP)
+RETURNING
+    id INTO sid;
+    INSERT INTO saleitems (
+        saleid,
+        bookid,
+        quantity)
+    VALUES (
+        sid,
+        123,
+        3),
+    (
+        sid,
+        456,
+        1),
+    (
+        sid,
+        789,
+        2);
     UPDATE
         saleitems AS si
     SET

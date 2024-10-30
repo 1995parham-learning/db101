@@ -1,8 +1,22 @@
-INSERT INTO tags (id, name, created_at, updated_at)
-    VALUES ('tag_1', 'the tag', now(), now());
+INSERT INTO tags (
+    id,
+    name,
+    created_at,
+    updated_at)
+VALUES (
+    'tag_1',
+    'the tag',
+    now(),
+    now());
 
-INSERT INTO rooms (id, created_at, updated_at)
-    VALUES ('room_1', now(), now());
+INSERT INTO rooms (
+    id,
+    created_at,
+    updated_at)
+VALUES (
+    'room_1',
+    now(),
+    now());
 
 UPDATE
     rooms

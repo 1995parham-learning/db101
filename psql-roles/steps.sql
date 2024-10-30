@@ -7,16 +7,28 @@ CREATE TABLE persons (
 );
 
 INSERT INTO persons
-    VALUES (1, 'Elahe Dastan', 'eldaa');
+VALUES (
+    1,
+    'Elahe Dastan',
+    'eldaa');
 
 INSERT INTO persons
-    VALUES (2, 'Sara Dastan', 'sdaa');
+VALUES (
+    2,
+    'Sara Dastan',
+    'sdaa');
 
 INSERT INTO persons
-    VALUES (3, 'Negin Amjadi', 'nj');
+VALUES (
+    3,
+    'Negin Amjadi',
+    'nj');
 
 INSERT INTO persons
-    VALUES (4, 'John Duo', 'john');
+VALUES (
+    4,
+    'John Duo',
+    'john');
 
 -- check the following link to know more about
 -- creating roles:
