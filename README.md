@@ -1,4 +1,8 @@
-# DB 101
+<h1 align="center">DB 101</h1>
+
+<p align="center">
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/1995parham-learning/db101/lint.yaml?logo=github&style=for-the-badge">
+</p>
 
 ## Introduction
 
